@@ -6,7 +6,8 @@ const morgan = require('morgan');// a simple utility for backend to be aware of 
 //custam made modules
 const config = require('../config/keys.js');
 
-mongoose.connect('mongodb://' + config.database.dbUser + ':' + config.database.dbPassword + '@ds115543.mlab.com:15543/mydatabase');
+//mongoose.connect('mongodb://' + config.database.dbUser + ':' + config.database.dbPassword + '@ds115543.mlab.com:15543/mydatabase');
+mongoose.connect(config.database.localhost.fullpath + 'myDatabase'); //the string is the name of the creating database
 
 mongoose.connection
   .on('open', () => {
@@ -32,9 +33,9 @@ app.use('/auth', adminAuthRoutes);
 
 //custom made middlewares
 app.use((req, res, next) => {
-  res.status(200).json({
-    success: true,
-    message: "Hello World"
+  res.status(404).json({
+    success: false,
+    message: "not found"
   });
 });
 

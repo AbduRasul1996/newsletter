@@ -32,13 +32,17 @@ module.exports = {
 
   //there can be any number of schemas to be validated
   schemas: {
-    registerSchema: {
-      name: Joi.string().required().min(5).max(15),
+    signUpSchema: {
       username: Joi.string().required().lowercase().min(3).max(15),
       age: Joi.number().integer().required().min(25),
       email: Joi.string().required().lowercase().email(),
       password: Joi.string().required().min(5),
-      confirmPassword: Joi.string().required().min(5)
+      confirmPassword: Joi.any().valid(Joi.ref('password')).required()
+        .options({language: {any: {allowOnly: 'must match password'}}})
+    },
+    signInSchema: {
+      email: Joi.string().required().lowercase().email(),
+      password: Joi.string().required().min(5)
     }
   }
 };
